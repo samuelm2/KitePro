@@ -53,7 +53,11 @@ public class BlueMan extends MoveableObject {
         lastAttackTime = TimeUtils.millis();
     }
 
-
+    /**
+     * Launches the projectile at the target location.
+     * TODO: Switch over to a non-lazy implementation where the BlueMan has an array of projectiles to launch
+     * @param target the target that the projectile is aiming for
+     */
     public void launchProjectile(MoveableObject target) {
         if(!isRenderingProjectile) {
             projectile.currentX = this.currentX;
@@ -72,8 +76,12 @@ public class BlueMan extends MoveableObject {
         }
     }
 
+    /**
+     * Gets the information from the passed in GameClick class and extracts the necessary data to
+     * decide what BlueMan should do next
+     * @param gameClick
+     */
     public void handleClick(GameClick gameClick) {
-
         if(gameClick.flashPressed) {
             if(currentState != ActionState.STUNNED) {
                 flash(gameClick.screenX, gameClick.screenY);
@@ -98,6 +106,11 @@ public class BlueMan extends MoveableObject {
         }
     }
 
+    /**
+     * Generic update() method that calls the other update methods based on the BlueMan's current
+     * state
+     * @param delta
+     */
     public void update(float delta) {
         updateProjectile(delta);
         switch (currentState) {
@@ -120,6 +133,11 @@ public class BlueMan extends MoveableObject {
         }
     }
 
+    /**
+     * Chases down the target. If the target becomes inside the attack range of BlueMan, he will
+     * switch to Attacking state
+     * @param delta
+     */
     private void seekingUpdate(float delta) {
         targetX = target.currentX;
         targetY = target.currentY;
@@ -132,16 +150,29 @@ public class BlueMan extends MoveableObject {
         }
     }
 
+    /**
+     * Does nothing until BlueMan is unstunned, then reverts BlueMan's state back to previousState
+     * @param delta
+     */
     private void stunnedUpdate(float delta) {
         if(TimeUtils.timeSinceMillis(stunnedTime) > currentStunLength) {
             currentState = previousState;
         }
     }
 
+    /**
+     * The update method that is called when the BlueMan's currentState is Moving
+     * @param delta
+     */
     private void movingUpdate(float delta) {
         updatePosition(delta);
     }
 
+    /**
+     * The update method that is called when the BlueMan's currentState is Attacking.
+     * If the target moves out of range, the BlueMan will go back into its seeking state
+     * @param delta
+     */
     private void attackingUpdate(float delta) {
         if(Utils.dist2(currentX, currentY, targetX, targetY) < (ATTACK_RANGE + target.radius) * (ATTACK_RANGE + target.radius)) {
             if(TimeUtils.timeSinceMillis(lastAttackTime) > MILLISECONDS_PER_ATTACK) {
@@ -154,10 +185,21 @@ public class BlueMan extends MoveableObject {
         }
     }
 
+    /**
+     * In the superclass, the update() only deals with moving the MoveableObject. However, with
+     * the BlueMan, update() must do a lot more, so the super.update() is moved into its own method
+     * @param delta
+     */
     private void updatePosition(float delta) {
         super.update(delta);
     }
 
+    /**
+     * Sets the state of the BlueMan to the given ActionState. If the BlueMan is stunned, it will
+     * set the previousState instead
+     *
+     * @param newState
+     */
     private void setState(ActionState newState) {
         if(currentState != ActionState.STUNNED) {
             if(currentState != newState) {
@@ -172,6 +214,11 @@ public class BlueMan extends MoveableObject {
         }
     }
 
+    /**
+     * Makes the BlueMan unable to do anything for a given stunLength.
+     *
+     * @param stunLength
+     */
     public void stun(long stunLength) {
         currentStunLength = stunLength;
         stunnedTime = TimeUtils.millis();
@@ -180,6 +227,13 @@ public class BlueMan extends MoveableObject {
 
     }
 
+    /**
+     * Attempts to flash to the mouse location. If the mouse location is too far from the BlueMan,
+     * the BlueMan will flash FLASH_DISTANCE units in the direction of the mouse location
+     *
+     * @param mousePositionX
+     * @param mousePositionY
+     */
     private void flash(float mousePositionX, float mousePositionY) {
         float dx = mousePositionX - currentX;
         float dy = mousePositionY - currentY;
@@ -196,6 +250,10 @@ public class BlueMan extends MoveableObject {
         recalculatePath();
     }
 
+    /**
+     * Updates Blueman's projectiles
+     * @param delta
+     */
     private void updateProjectile(float delta) {
         if(isRenderingProjectile) {
             projectile.update(delta);
@@ -215,6 +273,10 @@ public class BlueMan extends MoveableObject {
 
     }
 
+    /**
+     *  Draws the Blueman and any projectiles that he may be launching
+     * @param shapeRenderer
+     */
     @Override
     public void draw(ShapeRenderer shapeRenderer) {
         if(isRenderingProjectile) {

@@ -13,6 +13,13 @@ public class BadGuy extends MoveableObject{
 
     static Vector2 targetLocation;
 
+    /**
+     *
+     * @param currentX desired current x location
+     * @param currentY desired current y location
+     * @param radius desired radius of the badguy
+     * @param speed desired
+     */
     public BadGuy(float currentX, float currentY, float radius, float speed) {
         super(currentX, currentY, radius, speed);
         if(targetLocation == null) {
@@ -30,6 +37,9 @@ public class BadGuy extends MoveableObject{
         this.currentY = KitePro.SCREEN_HEIGHT/2;
     }
 
+    /**
+     * recalculates the path of the badguy after updating the its targetX and targetY
+     */
     @Override
     public void recalculatePath() {
         this.targetX = targetLocation.x;

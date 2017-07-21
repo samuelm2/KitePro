@@ -5,13 +5,20 @@ import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by samuelmcfadden on 7/6/17.
+ * NOT IN USE YET!
  *
+ * A class that will manage multiple badguys on the screen at once.
  */
 
 public class BadGuyManager {
-    Array<BadGuy> badguys;
-    boolean[] isBeingRenderedOnScreen;
+    private Array<BadGuy> badguys;
+    private boolean[] isBeingRenderedOnScreen;
 
+    /**
+     *
+     * @param radius
+     * @param speed
+     */
     public BadGuyManager(float radius, float speed) {
         BadGuy[] badGuyArray = new BadGuy[5];
         badguys = new Array<BadGuy>(badGuyArray);
@@ -24,6 +31,10 @@ public class BadGuyManager {
         }
     }
 
+    /**
+     * Iterates through all of the badguys and updates/recalculates their location
+     * @param delta
+     */
     public void updateAllBadGuys(float delta) {
         for(int i = 0; i < badguys.size; i++) {
             if(isBeingRenderedOnScreen[i]) {
@@ -33,6 +44,9 @@ public class BadGuyManager {
         }
     }
 
+    /**
+     * Makes a "dead" badguy renderable again
+     */
     public void spawnNewBadGuy() {
         for(int i = 0; i < badguys.size; i++) {
             if(!isBeingRenderedOnScreen[i]) {

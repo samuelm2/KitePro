@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 /**
  * Created by samuelmcfadden on 6/19/17.
- * An object that can be moved around on the screen.
+ * An object that can be moved around on the screen that has a target.
  */
 
 public class MoveableObject {
@@ -45,6 +45,9 @@ public class MoveableObject {
         diff = new Vector2(Vector2.Zero);
     }
 
+    /**
+     * Sets the diff vector2 to the right direction
+     */
     public void recalculatePath() {
         float dx = targetX - currentX;
         float dy = targetY - currentY;
@@ -53,6 +56,11 @@ public class MoveableObject {
         diff.nor();
     }
 
+    /**
+     * Moves the MoveableObject closer to the target.
+     * @param delta The time between calls. This is used so that the game will be exactly the same
+     *              for computers with different framerates
+     */
     public void update(float delta) {
         if(!hasReachedTarget()) {
             currentX += diff.x * speed * delta * DELTA_MULTIPLIER;
@@ -60,10 +68,19 @@ public class MoveableObject {
         }
     }
 
+    /**
+     * Draws a circle at the moveableObjects current location
+     * @param shapeRenderer
+     */
     public void draw(ShapeRenderer shapeRenderer) {
         shapeRenderer.circle(currentX, currentY, radius);
     }
 
+    /**
+     *
+     * @return Returns whether or not the MoveableObject is within three units (a very small distance)
+     * of the target location
+     */
     public boolean hasReachedTarget() {
         return (targetX - currentX) * (targetX - currentX) +
                 (targetY - currentY) * (targetY - currentY) <= 9;

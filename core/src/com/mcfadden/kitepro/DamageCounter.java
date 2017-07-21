@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 /**
  * Created by samuelmcfadden on 6/22/17.
+ *  Static class that Deals with all of the damage related statistics.
  */
 
 public class DamageCounter {
@@ -31,6 +32,11 @@ public class DamageCounter {
         return damageDealt;
     }
 
+    /**
+     * Getting the dps every frame is too much unnecessary information, so this method only returns
+     * the updated DPS once every 10 calls.
+     * @return
+     */
     public static double tryToGetDPS() {
         framesPassedSinceLastDPSUpdate++;
         if(framesPassedSinceLastDPSUpdate % 10 == 0) {
