@@ -30,7 +30,6 @@ public class GameScreen implements Screen, InputProcessor {
     private Label OptimalDPSLabel;
 
     public GameScreen(Game game, GameSettingsPacket gameSettingsPacket) {
-
         this.game = game;
 
         Gdx.input.setInputProcessor(this);
@@ -76,6 +75,24 @@ public class GameScreen implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        int mouseX = Gdx.input.getX();
+        if(mouseX < 10) {
+            mainCharacter.shiftLeft(delta);
+            chaser.shiftLeft(delta);
+        } else if(mouseX > KitePro.SCREEN_WIDTH - 10) {
+            mainCharacter.shiftRight(delta);
+            chaser.shiftRight(delta);
+        }
+
+        int mouseY = Gdx.input.getY();
+        if(mouseY < 10) {
+            mainCharacter.shiftUp(delta);
+            chaser.shiftUp(delta);
+        } else if(mouseY > KitePro.SCREEN_HEIGHT - 10) {
+            mainCharacter.shiftDown(delta);
+            chaser.shiftDown(delta);
+        }
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         mainCharacter.draw(shapeRenderer);
@@ -152,7 +169,6 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
         return false;
     }
 

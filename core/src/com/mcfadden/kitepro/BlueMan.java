@@ -273,6 +273,35 @@ public class BlueMan extends MoveableObject {
 
     }
 
+    @Override
+    public void shiftUp(float delta) {
+        super.shiftUp(delta);
+        projectile.shiftUp(delta);
+        projectile2.shiftUp(delta);
+    }
+
+    @Override
+    public void shiftDown(float delta) {
+        super.shiftDown(delta);
+        projectile.shiftDown(delta);
+        projectile2.shiftDown(delta);
+    }
+
+    @Override
+    public void shiftLeft(float delta) {
+        super.shiftLeft(delta);
+        projectile.shiftLeft(delta);
+        projectile2.shiftLeft(delta);
+    }
+
+    @Override
+    public void shiftRight(float delta) {
+        super.shiftRight(delta);
+        projectile.shiftRight(delta);
+        projectile2.shiftRight(delta);
+    }
+
+
     /**
      *  Draws the Blueman and any projectiles that he may be launching
      * @param shapeRenderer

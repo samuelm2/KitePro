@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class MoveableObject {
 
+    public static final int SCREEN_SCROLL_DISTANCE = 15;
     private final float DELTA_MULTIPLIER = 60;
 
     private float speed;
@@ -66,6 +67,26 @@ public class MoveableObject {
             currentX += diff.x * speed * delta * DELTA_MULTIPLIER;
             currentY += diff.y * speed * delta * DELTA_MULTIPLIER;
         }
+    }
+
+    public void shiftUp(float delta) {
+        currentY -= SCREEN_SCROLL_DISTANCE;
+        targetY -= SCREEN_SCROLL_DISTANCE;
+    }
+
+    public void shiftDown(float delta) {
+        currentY += SCREEN_SCROLL_DISTANCE;
+        targetY += SCREEN_SCROLL_DISTANCE;
+    }
+
+    public void shiftLeft(float delta) {
+        currentX += SCREEN_SCROLL_DISTANCE;
+        targetX += SCREEN_SCROLL_DISTANCE;
+    }
+
+    public void shiftRight(float delta) {
+        currentX -= SCREEN_SCROLL_DISTANCE;
+        targetX -= SCREEN_SCROLL_DISTANCE;
     }
 
     /**
